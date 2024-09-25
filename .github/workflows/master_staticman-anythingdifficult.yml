@@ -19,7 +19,7 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
+          node-version: '18.x'
 
       - name: npm install, build, and test
         run: |
@@ -54,18 +54,23 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip release.zip
       
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_ADEBC0F93B814151A2EDBAE8B45F760F }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_07AF3C0556764F9CB6FD9C47E2F077D3 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_DE8E2BE862564DFCAA85AB90D2DEC9C7 }}
+      # - name: Login to Azure
+      #   uses: azure/login@v2
+      #   with:
+      #     client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_ADEBC0F93B814151A2EDBAE8B45F760F }}
+      #     tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_07AF3C0556764F9CB6FD9C47E2F077D3 }}
+      #     subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_DE8E2BE862564DFCAA85AB90D2DEC9C7 }}
 
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
+      # - name: 'Deploy to Azure Web App'
+      #   id: deploy-to-webapp
+      #   uses: azure/webapps-deploy@v3
+      #   with:
+      #     app-name: 'staticman-anythingdifficult'
+      #     slot-name: 'Production'
+      #     package: .
+      - name: App Service Web App Build Action
+        uses: Azure/appservice-build@v3
         with:
-          app-name: 'staticman-anythingdifficult'
-          slot-name: 'Production'
-          package: .
+          platform: nodejs
+          platform-version: '18.x'
           
